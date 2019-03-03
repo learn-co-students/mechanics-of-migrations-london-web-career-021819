@@ -8,8 +8,23 @@ require 'date'
 require 'bundler/setup'
 Bundler.require
 
-
+ActiveRecord::Base.establish_connection(
+  adapter: 'sqlite3',
+  database: 'db/artits.sqlite'
+)
 # put the code to connect to the database here
 
+sql = <<-SQL
+  CREATE TABLE IF NOT EXISTS artists (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  genre TEXT,
+  age INTEGER,
+  hometown TEXT
+  )
+SQL
 
+ActiveRecord::Base.connection.execute(sql)
+
+ActiveRecord::Base.logger = Logger.new(STDOUT)
 require_relative "../artist.rb"
